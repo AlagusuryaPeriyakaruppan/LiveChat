@@ -10,6 +10,8 @@ import ChatMessage from "./ChatMessage";
 //   },
 // ];
 
+const CHAT_MESSAGE_LIMIT = 5;
+
 var nameList = [
   "Time",
   "Past",
@@ -205,7 +207,8 @@ const ChatWindow = () => {
     ];
 
     setMessages((messages) => {
-      const newMessageList = [...messages, ...data];
+      let newMessageList = [...data, ...messages];
+      newMessageList = newMessageList.splice(0, CHAT_MESSAGE_LIMIT);
       return newMessageList;
     });
   };
