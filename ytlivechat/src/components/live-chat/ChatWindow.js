@@ -10,7 +10,7 @@ import ChatMessage from "./ChatMessage";
 //   },
 // ];
 
-const CHAT_MESSAGE_LIMIT = 5;
+const CHAT_MESSAGE_LIMIT = 50;
 
 var nameList = [
   "Time",
@@ -215,6 +215,11 @@ const ChatWindow = () => {
 
   useEffect(() => {
     const s = setInterval(fetchData, 1000);
+
+    //cleanup
+    return () => {
+      clearInterval(s);
+    };
   }, []);
 
   return (
