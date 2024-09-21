@@ -196,13 +196,14 @@ function generateRandomNames() {
 
 const ChatWindow = () => {
   const [messages, setMessages] = useState([]);
+  const [newResponse, setNewResponse] = useState();
 
   const fetchData = () => {
     const data = [
       {
         name: generateRandomNames(),
         photo: "https://avatars.githubusercontent.com/u/155764762?v=4",
-        message: "Wonderful videos  -- enjoying your session a lot",
+        message: "Wonderful videos  - enjoying your session a lot",
       },
     ];
 
@@ -222,11 +223,45 @@ const ChatWindow = () => {
     };
   }, []);
 
+  const AddMessageToTheList = () => {
+    if (newResponse) {
+      setMessages((messages) => {
+        let newMessageList = [
+          {
+            name: generateRandomNames(),
+            photo: "https://avatars.githubusercontent.com/u/155764762?v=4",
+            message: newResponse,
+          },
+          ...messages,
+        ];
+        newMessageList = newMessageList.splice(0, CHAT_MESSAGE_LIMIT);
+        return newMessageList;
+      });
+      setNewResponse("");
+    }
+  };
+
   return (
-    <div className="flex w-full h-[600px] border border-black m-5 overflow-y-scroll flex-col-reverse">
-      {messages.map((message, index) => (
-        <ChatMessage key={index} {...message} />
-      ))}
+    <div className="border border-black">
+      <div className="flex w-full h-[600px] overflow-y-scroll flex-col-reverse">
+        {messages.map((message, index) => (
+          <ChatMessage key={index} {...message} />
+        ))}
+      </div>
+      <div className="m-3">
+        <input
+          type="text"
+          value={newResponse}
+          className="p-1 border border-black w-2/3"
+          onChange={(e) => setNewResponse(e.target.value)}
+        />
+        <button
+          className="bg-blue-500 px-2 py-1 mx-1 rounded text-white"
+          onClick={AddMessageToTheList}
+        >
+          Submit
+        </button>
+      </div>
     </div>
   );
 };
